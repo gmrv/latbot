@@ -1,0 +1,15 @@
+version: '2'
+services:
+  latbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: latbot
+    environment:
+      - APP_TOKEN=***TELEGRAM-BOT-TOKEN***
+      - APP_MASTER_CHAT_ID=***OWNER-CHAT-ID***
+      - APP_JOB_INTERVAL=30
+    command: python main.py
+    volumes:
+      - .:/app
+      - /var/log/btmp:/var/log/btmp
