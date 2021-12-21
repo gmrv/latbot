@@ -1,4 +1,5 @@
-FROM python:3.10.1-bullseye
+FROM python:3.10.1-slim-bullseye
+
 MAINTAINER gmrv
 
 ENV PYTHONUNBUFFERED 1
