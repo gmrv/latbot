@@ -1,0 +1,5 @@
+# This file stored commands from /commands buttons
+w -sh
+w -sh && ps h
+sudo firewall-cmd --list-all
+sudo fail2ban-client status sshd

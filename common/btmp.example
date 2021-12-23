@@ -1,0 +1,2 @@
+Put /var/log/btmp here for development purpose.
+For production environment mount by docker-compose.yml and use system's /var/log/btmp.

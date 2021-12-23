@@ -1,3 +1,16 @@
+.idea
+scripts
+
+common/btmp
+common/output
+common/commandpipe
+common/commands
+common/output
+
+dopipe.sh
+docker-compose.yml
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
