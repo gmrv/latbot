@@ -15,4 +15,4 @@ class LastbEntry:
         return self.username is None and self.host is None and self.timestamp is None
 
     def __str__(self):
-        return '{"username": "%s", "host": "%s", "timestamp": "%s"}' % (self.username, self.host, self.timestamp)
+        return f'{{"username": "{self.username}", "host": "{self.host}", "timestamp": "{self.timestamp}"}}'

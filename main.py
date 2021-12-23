@@ -12,7 +12,7 @@ global_stored_entry = LastbEntry(None, None, None)
 
 # Enable logging
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.ERROR
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
 
 logger = logging.getLogger(__name__)
@@ -101,6 +101,7 @@ def main() -> None:
     remove_job_if_exists("CHECK-LASTB", updater)
     updater.job_queue.run_repeating(login_attempts_checker, due, context=MASTER_CHAT_ID, name="CHECK-LASTB")
 
+    logger.info("Latbot started")
     updater.bot.send_message(MASTER_CHAT_ID, text='Latbot online...')
     updater.start_polling()
     updater.idle()
