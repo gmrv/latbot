@@ -5,9 +5,9 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, ParseMo
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, CallbackContext
 from utils.utils import run_command, get_commands_list, get_last_btmp_entry, remove_job_if_exists
 
-APP_TOKEN = os.environ["APP_TOKEN"]
-MASTER_CHAT_ID = os.environ["APP_MASTER_CHAT_ID"]
-JOB_INTERVAL = int(os.environ["APP_JOB_INTERVAL"])
+TOKEN = os.getenv("APP_TOKEN")
+MASTER_CHAT_ID = os.getenv("APP_MASTER_CHAT_ID")
+JOB_INTERVAL = int(os.getenv("APP_JOB_INTERVAL", "30"))
 OUTPUT_DELAY = int(os.getenv("APP_OUTPUT_DELAY", "5"))
 global_stored_entry = LastbEntry(None, None, None)
 
@@ -89,7 +89,7 @@ def login_attempts_checker(context: CallbackContext) -> None:
 
 
 def main() -> None:
-    updater = Updater(APP_TOKEN)
+    updater = Updater(TOKEN)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("ping", ping))
