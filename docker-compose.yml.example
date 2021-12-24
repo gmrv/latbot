@@ -9,6 +9,7 @@ services:
       - APP_TOKEN=***TELEGRAM-BOT-TOKEN***
       - APP_MASTER_CHAT_ID=***OWNER-CHAT-ID***
       - APP_JOB_INTERVAL=30
+      - APP_OUTPUT_DELAY=2
     command: python main.py
     volumes:
       - .:/app

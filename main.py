@@ -8,6 +8,7 @@ from utils.utils import run_command, get_commands_list, get_last_btmp_entry, rem
 APP_TOKEN = os.environ["APP_TOKEN"]
 MASTER_CHAT_ID = os.environ["APP_MASTER_CHAT_ID"]
 JOB_INTERVAL = int(os.environ["APP_JOB_INTERVAL"])
+OUTPUT_DELAY = int(os.getenv("APP_OUTPUT_DELAY", "5"))
 global_stored_entry = LastbEntry(None, None, None)
 
 # Enable logging
@@ -29,7 +30,7 @@ def do(update: Update, context: CallbackContext) -> None:
         update.message.reply_text("Access denied")
         return
     command = update.message.text[4:]
-    output = run_command(command)
+    output = run_command(command, OUTPUT_DELAY)
     update.message.reply_text("<pre>%s</pre>" % output, parse_mode=ParseMode.HTML)
 
 
@@ -67,7 +68,7 @@ def button_handler(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
     query.answer()
     command = query.data
-    output = run_command(command)
+    output = run_command(command, OUTPUT_DELAY)
     query.edit_message_text("<pre>%s</pre>" % output, parse_mode=ParseMode.HTML)
 
 
