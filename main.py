@@ -1,15 +1,10 @@
-import os
 import logging
-from utils.lastb_entry import LastbEntry
+from common import config
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, ParseMode
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, CallbackContext
 from utils.utils import run_command, get_commands_list, get_last_btmp_entry, remove_job_if_exists
 
-TOKEN = os.getenv("APP_TOKEN")
-MASTER_CHAT_ID = os.getenv("APP_MASTER_CHAT_ID")
-JOB_INTERVAL = int(os.getenv("APP_JOB_INTERVAL", "30"))
-OUTPUT_DELAY = int(os.getenv("APP_OUTPUT_DELAY", "5"))
-global_stored_entry = LastbEntry(None, None, None)
+config = config.get_config()
 
 # Enable logging
 logging.basicConfig(
@@ -26,16 +21,16 @@ def ping(update: Update, context: CallbackContext) -> None:
 
 def do(update: Update, context: CallbackContext) -> None:
     """Sends explanation on how to use the bot."""
-    if not update.message.chat_id == int(MASTER_CHAT_ID):
+    if not update.message.chat_id == int(config.MASTER_CHAT_ID):
         update.message.reply_text("Access denied")
         return
     command = update.message.text[4:]
-    output = run_command(command, OUTPUT_DELAY)
+    output = run_command(command, config.OUTPUT_DELAY)
     update.message.reply_text("<pre>%s</pre>" % output, parse_mode=ParseMode.HTML)
 
 
 def scripts(update: Update, context: CallbackContext) -> None:
-    if not update.message.chat_id == int(MASTER_CHAT_ID):
+    if not update.message.chat_id == int(config.MASTER_CHAT_ID):
         update.message.reply_text("Access denied")
         return
     output = run_command("ls ./scripts/*.sh", 1)
@@ -50,7 +45,7 @@ def scripts(update: Update, context: CallbackContext) -> None:
 
 
 def commands(update: Update, context: CallbackContext) -> None:
-    if not update.message.chat_id == int(MASTER_CHAT_ID):
+    if not update.message.chat_id == int(config.MASTER_CHAT_ID):
         update.message.reply_text("Access denied")
         return
     commands = get_commands_list()
@@ -62,13 +57,13 @@ def commands(update: Update, context: CallbackContext) -> None:
 
 
 def button_handler(update: Update, context: CallbackContext) -> None:
-    if not update.callback_query.message.chat_id == int(MASTER_CHAT_ID):
+    if not update.callback_query.message.chat_id == int(config.MASTER_CHAT_ID):
         update.message.reply_text("Access denied")
         return
     query = update.callback_query
     query.answer()
     command = query.data
-    output = run_command(command, OUTPUT_DELAY)
+    output = run_command(command, config.OUTPUT_DELAY)
     query.edit_message_text("<pre>%s</pre>" % output, parse_mode=ParseMode.HTML)
 
 
@@ -89,7 +84,7 @@ def login_attempts_checker(context: CallbackContext) -> None:
 
 
 def main() -> None:
-    updater = Updater(TOKEN)
+    updater = Updater(config.TOKEN)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("ping", ping))
@@ -98,12 +93,12 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("commands", commands))
     dispatcher.add_handler(CallbackQueryHandler(button_handler))
 
-    due = JOB_INTERVAL
+    due = config.JOB_INTERVAL
     remove_job_if_exists("CHECK-LASTB", updater)
-    updater.job_queue.run_repeating(login_attempts_checker, due, context=MASTER_CHAT_ID, name="CHECK-LASTB")
+    updater.job_queue.run_repeating(login_attempts_checker, due, context=config.MASTER_CHAT_ID, name="CHECK-LASTB")
 
     logger.info("Latbot started")
-    updater.bot.send_message(MASTER_CHAT_ID, text='Latbot online...')
+    updater.bot.send_message(config.MASTER_CHAT_ID, text='Latbot online...')
     updater.start_polling()
     updater.idle()
 
