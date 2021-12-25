@@ -24,11 +24,11 @@ WantedBy=multi-user.target
 echo -e \
 '#!/bin/bash
 
-rm '$SCRIPT_DIR'/common/commandpipe
-mkfifo '$SCRIPT_DIR'/common/commandpipe
+rm '$SCRIPT_DIR'/host/commandpipe
+mkfifo '$SCRIPT_DIR'/host/commandpipe
 
 while true;
-  do eval "$(cat '$SCRIPT_DIR'/common/commandpipe)" &> '$SCRIPT_DIR'/common/output;
+  do eval "$(cat '$SCRIPT_DIR'/host/commandpipe)" &> '$SCRIPT_DIR'/host/output;
 done
 ' > ./dopipe.sh
 

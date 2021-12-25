@@ -29,10 +29,10 @@ def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
 def run_command(command, delay=5):
     """Sends explanation on how to use the bot."""
     if command != "#":
-        stream = os.popen('echo "%s" > ./common/commandpipe' % command)
+        stream = os.popen('echo "%s" > ./host/commandpipe' % command)
         output = stream.read()
         sleep(delay)
-    f = open("./common/output", "r")
+    f = open("./host/output", "r")
     output = f.read()
     f.close()
     if len(output) < 1:
@@ -41,7 +41,7 @@ def run_command(command, delay=5):
 
 def get_commands_list():
     """Sends explanation on how to use the bot."""
-    f = open("./common/commands", "r")
+    f = open("./host/commands", "r")
     output = f.read()
     f.close()
     return output.splitlines()
