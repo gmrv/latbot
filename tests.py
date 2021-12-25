@@ -1,6 +1,6 @@
 import unittest
-from utils.lastb_entry import LastbEntry
-from utils.utils import get_last_btmp_entry
+from common.lastb_entry import LastbEntry
+from common.utils import get_last_btmp_entry
 from main import login_attempts_checker
 
 class EntryTest(unittest.TestCase):
