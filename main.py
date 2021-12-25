@@ -8,9 +8,9 @@ config = config.get_config()
 
 # Enable logging
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=getattr(logging, config.TRACE_LEVEL, logging.INFO)
 )
-
 logger = logging.getLogger(__name__)
 
 
