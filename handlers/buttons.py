@@ -5,6 +5,7 @@ from common.utils import run_command
 
 app_config = config.get_config()
 
+
 def button_handler(update: Update, context: CallbackContext) -> None:
     if not update.callback_query.message.chat_id == int(app_config.MASTER_CHAT_ID):
         update.message.reply_text("Access denied")

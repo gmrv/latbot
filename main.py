@@ -1,7 +1,7 @@
 import logging
 from common import config
 from handlers import commands, buttons
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, Filters, MessageHandler
 from common.jobs import remove_job_if_exists, login_attempts_checker
 
 config = config.get_config()
@@ -23,6 +23,9 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("scripts", commands.scripts))
     dispatcher.add_handler(CommandHandler("commands", commands.commands))
     dispatcher.add_handler(CallbackQueryHandler(buttons.button_handler))
+
+    # on non command i.e message
+    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, commands.non_command))
 
     due = config.JOB_INTERVAL
     remove_job_if_exists("CHECK-LASTB", updater)

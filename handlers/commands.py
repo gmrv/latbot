@@ -43,3 +43,13 @@ def commands(update: Update, context: CallbackContext) -> None:
         keyboard.append([InlineKeyboardButton(text=command, callback_data=command)])
     reply_markup = InlineKeyboardMarkup(keyboard)
     update.message.reply_text("Commands:", reply_markup=reply_markup)
+
+
+def non_command(update: Update, context: CallbackContext) -> None:
+    if not update.message.chat_id == int(app_config.MASTER_CHAT_ID):
+        update.message.reply_text("Access denied")
+        return
+    if update.message.text[0] == ".":
+        command = update.message.text[1:]
+        output = run_command(command, app_config.OUTPUT_DELAY)
+        update.message.reply_text("<pre>%s</pre>" % output, parse_mode=ParseMode.HTML)
