@@ -1,11 +1,11 @@
 .idea
 scripts
 
-common/btmp
-common/output
-common/commandpipe
-common/commands
-common/output
+host/btmp
+host/output
+host/commandpipe
+host/commands
+host/output
 
 dopipe.sh
 docker-compose.yml
