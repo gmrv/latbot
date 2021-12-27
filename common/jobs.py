@@ -14,10 +14,9 @@ def login_attempts_checker(context: CallbackContext) -> None:
     if not app_config.GLOBAL_STORED_ENTRY.is_equal(tmp_entry):
         if context:
             job = context.job
-            context.bot.send_message(job.context, text='#alarm %s %s' % (tmp_entry.username, tmp_entry.host))
+            context.bot.send_message(job.context, text=f'#alarm {tmp_entry.username} {tmp_entry.host}')
             app_config.GLOBAL_STORED_ENTRY = tmp_entry
-        return False
-    return True
+        #todo: run ./scripts/alert.sh
 
 
 def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
